@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3 3.9.9'  // Name must match Jenkins tool config 
+        maven 'Maven3'  // ✅ Must match exactly with Jenkins tool config
     }
 
     environment {
@@ -31,6 +31,7 @@ pipeline {
 
         stage('Run Container') {
             steps {
+                sh 'docker rm -f backend-ci-container || true'  // Remove old container if exists
                 sh 'docker run -d -p 8080:8080 --name backend-ci-container $IMAGE_NAME:$IMAGE_TAG'
             }
         }
